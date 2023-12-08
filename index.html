@@ -10,16 +10,17 @@
       <span id="lowerbound">1</span>到<span id="upperbound">100</span
       >之間的數字，你猜是多少？
     </p>
-    <input type="text" id="guessField" />
+    <input type="text" id="guessField"/>
     <input type="submit" value="猜!" id="guessSubmit" />
     <input type="submit" value="公布答案" id="announceanswer" />
+    <input type="submit" value="再玩一次" id="playagain" />
     <p class="message"></p>
   </body>
   <script>
     let clickCounter = 0;
 
     // Random number
-    const targetNumber = Math.floor(Math.random() * 100) + 1;
+    let targetNumber = Math.floor(Math.random() * 100) + 1;
     console.log("answer: " + targetNumber);
  
     // Get element
@@ -29,25 +30,54 @@
     const lowerbound = document.getElementById("lowerbound");
     const upperbound = document.getElementById("upperbound");
     const announceanswer=document.getElementById("announceanswer")
+    const playagain=document.getElementById("playagain")
+
 
     // Event listener
     guessSubmit.addEventListener("click", checkGuess);
     announceanswer.addEventListener("click", revealanswer)
+    playagain.addEventListener("click",newround)
 
+    // newround function
+    function newround(){
+    targetNumber = Math.floor(Math.random() * 100) + 1;
+    console.log("answer: " + targetNumber);
+    clickCounter = 0
+    lowerbound.textContent =1
+    upperbound.textContent =100
+    message.textContent =""
+    guessSubmit.disabled = false
+    guessField.value = "";
+    guessField.focus()
+    }
+    
     // reveal function
     function revealanswer(){
       message.textContent = "答案是 "+targetNumber
       message.style.color = "blue";
+      guessField.value = "";
+      guessField.focus()
     }
 
     // Guess function
     function checkGuess() {
-      const userGuess = parseInt(guessField.value);
+      const userGuess = parseFloat(guessField.value);
       console.log("userGuess: " + userGuess);
 
       function incrementClickCounter() {
         clickCounter++;
       }
+
+      // 只能輸入1-100間整數
+       if (isNaN(userGuess) || userGuess % 1 !== 0 || userGuess < 1 || userGuess > 100) {
+        message.textContent = "請輸入 1 到 100 之間的有效整數。";
+        message.style.color = "red";
+        guessField.value = "";
+        guessField.focus();
+        return;
+        }
+      
+      // 只能猜五次,沒猜中公布答案  
       if (clickCounter<=3){
       if (userGuess === targetNumber) {
         incrementClickCounter();
@@ -77,9 +107,6 @@
         message.style.color = "red"
         guessSubmit.disabled = true;
       }}
-
-
- 
       guessField.value = "";
       guessField.focus();
     }

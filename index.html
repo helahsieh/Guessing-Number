@@ -15,6 +15,7 @@
     <input type="submit" value="公布答案" id="announceanswer" />
     <input type="submit" value="再玩一次" id="playagain" />
     <p class="message"></p>
+    <p id="encourage"></p>
   </body>
   <script>
     let clickCounter = 0;
@@ -31,7 +32,7 @@
     const upperbound = document.getElementById("upperbound");
     const announceanswer=document.getElementById("announceanswer")
     const playagain=document.getElementById("playagain")
-
+    const encourage=document.getElementById("encourage")
 
     // Event listener
     guessSubmit.addEventListener("click", checkGuess);
@@ -50,7 +51,7 @@
     guessField.value = "";
     guessField.focus()
     }
-    
+
     // reveal function
     function revealanswer(){
       message.textContent = "答案是 "+targetNumber
@@ -104,9 +105,25 @@
       } else {
         incrementClickCounter();
         message.textContent = "You Failed! 答案是 "+targetNumber 
-        message.style.color = "red"
+        message.style.color = "red" 
         guessSubmit.disabled = true;
-      }}
+        
+         //五秒自動下一局
+        let secondsRemaining = 5;
+        function countdown() {
+        if (secondsRemaining >= 0) {
+            encourage.textContent = "不要灰心," + secondsRemaining + "秒後再一局~";
+            encourage.style.color = "blue";
+            secondsRemaining--;
+        } else {
+            clearInterval(timer);
+            newround();
+            encourage.textContent = '';
+        }
+    }
+    const timer = setInterval(countdown, 1000);
+}
+      }
       guessField.value = "";
       guessField.focus();
     }

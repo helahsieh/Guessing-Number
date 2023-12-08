@@ -15,7 +15,7 @@
     <input type="submit" value="公布答案" id="announceanswer" />
     <input type="submit" value="再玩一次" id="playagain" />
     <p class="message"></p>
-    <p id="encourage"></p>
+    <p id="second"></p>
   </body>
   <script>
     let clickCounter = 0;
@@ -32,7 +32,7 @@
     const upperbound = document.getElementById("upperbound");
     const announceanswer=document.getElementById("announceanswer")
     const playagain=document.getElementById("playagain")
-    const encourage=document.getElementById("encourage")
+    const second=document.getElementById("second")
 
     // Event listener
     guessSubmit.addEventListener("click", checkGuess);
@@ -65,9 +65,7 @@
       const userGuess = parseFloat(guessField.value);
       console.log("userGuess: " + userGuess);
 
-      function incrementClickCounter() {
-        clickCounter++;
-      }
+      function incrementClickCounter() {clickCounter++;}
 
       // 只能輸入1-100間整數
        if (isNaN(userGuess) || userGuess % 1 !== 0 || userGuess < 1 || userGuess > 100) {
@@ -79,22 +77,22 @@
         }
       
       // 只能猜五次,沒猜中公布答案  
-      if (clickCounter<=3){
-      if (userGuess === targetNumber) {
-        incrementClickCounter();
-        message.textContent = `恭喜你，你猜對了！你這次猜了 ${clickCounter} 次哦～`;
-        message.style.color = "green";
-        guessSubmit.disabled = true;
-      } else if (userGuess < targetNumber) {
-        incrementClickCounter();
-        message.textContent = "太小了，再試一次。";
-        message.style.color = "red";
-        lowerbound.textContent = userGuess;
-      } else {
-        incrementClickCounter();
-        message.textContent = "太大了，再試一次。";
-        message.style.color = "red";
-        upperbound.textContent = userGuess;
+ if (clickCounter<=3){
+    if (userGuess === targetNumber) {
+    incrementClickCounter();
+    message.textContent = `恭喜你，你猜對了！你這次猜了 ${clickCounter} 次哦～`;
+    message.style.color = "green";
+    guessSubmit.disabled = true;
+    } else if (userGuess<targetNumber) {
+    incrementClickCounter();
+    message.textContent = "太小了，再試一次。";
+    message.style.color = "red";
+    lowerbound.textContent = userGuess;
+    } else {
+    incrementClickCounter();
+    message.textContent = "太大了，再試一次。";
+    message.style.color = "red";
+    upperbound.textContent = userGuess;
       }}
       else{
         if (userGuess === targetNumber) {
@@ -109,20 +107,22 @@
         guessSubmit.disabled = true;
         
          //五秒自動下一局
-        let secondsRemaining = 5;
-        function countdown() {
-        if (secondsRemaining >= 0) {
-            encourage.textContent = "不要灰心," + secondsRemaining + "秒後再一局~";
-            encourage.style.color = "blue";
-            secondsRemaining--;
-        } else {
-            clearInterval(timer);
-            newround();
-            encourage.textContent = '';
-        }
-    }
-    const timer = setInterval(countdown, 1000);
-}
+         setTimeout(newround,5000) 
+        function delayedDisplay(string, ms, callback)
+        {
+        setTimeout(function() {
+        callback(string);
+        }, ms)};
+        delayedDisplay("5", 0, display);
+        delayedDisplay("4", 1000, display)
+        delayedDisplay("3", 2000, display);
+        delayedDisplay("2", 3000, display);
+        delayedDisplay("1", 4000, display);
+        delayedDisplay("", 5000, display);
+        delayedDisplay("",6000,display)
+        
+        function display(result) {second.textContent=result
+        second.style.color="blue"}}
       }
       guessField.value = "";
       guessField.focus();

@@ -12,6 +12,7 @@
     </p>
     <input type="text" id="guessField" />
     <input type="submit" value="猜!" id="guessSubmit" />
+    <input type="submit" value="公布答案" id="announceanswer" />
     <p class="message"></p>
   </body>
   <script>
@@ -20,15 +21,24 @@
     // Random number
     const targetNumber = Math.floor(Math.random() * 100) + 1;
     console.log("answer: " + targetNumber);
-
+ 
     // Get element
     const guessField = document.getElementById("guessField");
     const guessSubmit = document.getElementById("guessSubmit");
     const message = document.querySelector(".message");
     const lowerbound = document.getElementById("lowerbound");
     const upperbound = document.getElementById("upperbound");
+    const announceanswer=document.getElementById("announceanswer")
+
     // Event listener
     guessSubmit.addEventListener("click", checkGuess);
+    announceanswer.addEventListener("click", revealanswer)
+
+    // reveal function
+    function revealanswer(){
+      message.textContent = "答案是 "+targetNumber
+      message.style.color = "blue";
+    }
 
     // Guess function
     function checkGuess() {

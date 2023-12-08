@@ -38,7 +38,7 @@
       function incrementClickCounter() {
         clickCounter++;
       }
-
+      if (clickCounter<=3){
       if (userGuess === targetNumber) {
         incrementClickCounter();
         message.textContent = `恭喜你，你猜對了！你這次猜了 ${clickCounter} 次哦～`;
@@ -54,8 +54,22 @@
         message.textContent = "太大了，再試一次。";
         message.style.color = "red";
         upperbound.textContent = userGuess;
-      }
+      }}
+      else{
+        if (userGuess === targetNumber) {
+        incrementClickCounter();
+        message.textContent = `恭喜你，你猜對了！你這次猜了 5 次哦～`;
+        message.style.color = "green";
+        guessSubmit.disabled = true;
+      } else {
+        incrementClickCounter();
+        message.textContent = "You Failed! 答案是 "+targetNumber 
+        message.style.color = "red"
+        guessSubmit.disabled = true;
+      }}
 
+
+ 
       guessField.value = "";
       guessField.focus();
     }

@@ -108,21 +108,19 @@
         
          //五秒自動下一局
          setTimeout(newround,5000) 
-        function delayedDisplay(string, ms, callback)
-        {
-        setTimeout(function() {
-        callback(string);
-        }, ms)};
-        delayedDisplay("5", 0, display);
-        delayedDisplay("4", 1000, display)
-        delayedDisplay("3", 2000, display);
-        delayedDisplay("2", 3000, display);
-        delayedDisplay("1", 4000, display);
-        delayedDisplay("", 5000, display);
-        delayedDisplay("",6000,display)
-        
+
+         //五秒倒數
         function display(result) {second.textContent=result
-        second.style.color="blue"}}
+        second.style.color="blue"}
+        function delayedDisplay(string, ms)
+        {setTimeout(display,ms,string)};
+        delayedDisplay("5", 0);
+        delayedDisplay("4", 1000)
+        delayedDisplay("3", 2000);
+        delayedDisplay("2", 3000);
+        delayedDisplay("1", 4000);
+        delayedDisplay("", 5000);        
+        }
       }
       guessField.value = "";
       guessField.focus();
